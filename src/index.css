@@ -1,0 +1,161 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-gray-50 dark:bg-dark-900;
+  }
+  
+  body {
+    @apply bg-gray-50 dark:bg-dark-gradient min-h-screen text-gray-900 dark:text-white transition-colors duration-200;
+  }
+  
+  * {
+    @apply scrollbar-thin;
+    scrollbar-color: var(--border-secondary) transparent;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-white dark:bg-dark-300/50 backdrop-blur-sm border border-gray-200 dark:border-primary-800/30 rounded-xl shadow-md dark:shadow-lg text-gray-900 dark:text-white transition-all duration-200;
+  }
+  
+  .card-hover {
+    @apply hover:bg-gray-50 dark:hover:bg-dark-300/70 hover:border-primary-500 dark:hover:border-primary-600/50 transition-all duration-300 hover:shadow-xl dark:hover:shadow-primary-500/20;
+  }
+  
+  .btn-primary {
+    @apply bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-primary-500/30;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-100 hover:bg-gray-200 dark:bg-dark-400 dark:hover:bg-dark-300 text-gray-800 dark:text-gray-200 font-semibold py-2 px-4 rounded-lg transition-all duration-200 border border-gray-300 dark:border-primary-800/30 dark:hover:border-primary-600/50;
+  }
+  
+  .input-primary {
+    @apply bg-white dark:bg-dark-400/50 border border-gray-300 dark:border-primary-800/30 rounded-lg px-3 py-2 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all duration-200;
+  }
+  
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary-400 to-accent-pink bg-clip-text text-transparent;
+  }
+  
+  .glass {
+    @apply bg-white/70 dark:bg-white/5 backdrop-blur-md border border-gray-200/50 dark:border-white/10 shadow-sm dark:shadow-none;
+  }
+  
+  /* Accessibility utilities */
+  .sr-only {
+    @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
+    clip: rect(0, 0, 0, 0);
+  }
+  
+  .focus-visible:focus {
+    @apply outline-none ring-2 ring-primary-500/50 ring-offset-2 ring-offset-dark-500;
+  }
+  
+  .skip-navigation {
+    @apply fixed top-0 left-0 z-50 transform -translate-y-full transition-transform;
+  }
+  
+  .skip-navigation.visible {
+    @apply transform translate-y-0;
+  }
+  
+  .skip-link {
+    @apply bg-primary-600 text-white px-4 py-2 rounded-b-lg font-medium focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-600;
+  }
+  
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .card {
+      @apply border-2 border-white/50;
+    }
+    
+    .btn-primary {
+      @apply border-2 border-white;
+    }
+    
+    .text-gradient {
+      @apply text-white bg-none;
+    }
+  }
+  
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Custom scrollbar styles */
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+  
+  .scrollbar-thumb-primary-600 {
+    scrollbar-color: #0d9488 transparent;
+  }
+  
+  .scrollbar-track-dark-400 {
+    scrollbar-color: #122932 transparent;
+  }
+  
+  /* Mobile optimizations */
+  .mobile-safe-area {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .touch-action-pan-y {
+    touch-action: pan-y;
+  }
+  
+  .touch-action-manipulation {
+    touch-action: manipulation;
+  }
+  
+  /* Better mobile tapping */
+  .tap-highlight-none {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Mobile-specific animations */
+  @media (max-width: 768px) {
+    .animate-fade-in {
+      animation-duration: 0.3s;
+    }
+    
+    .animate-slide-up {
+      animation-duration: 0.2s;
+    }
+    
+    /* Reduce motion for mobile battery saving */
+    @media (prefers-reduced-motion: reduce) {
+      .animate-fade-in,
+      .animate-slide-up,
+      .animate-pulse-glow {
+        animation: none;
+      }
+      
+      .transition-all,
+      .transition-colors,
+      .transition-transform {
+        transition: none;
+      }
+    }
+  }
+  
+  /* Mobile viewport fixes */
+  @supports (-webkit-touch-callout: none) {
+    .min-h-screen {
+      min-height: -webkit-fill-available;
+    }
+  }
+}

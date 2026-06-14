@@ -1,0 +1,1895 @@
+{
+  "address": "FvdEiEPJUEMUZ7HCkK2gPfYGFXCbUB68mTJufdC9BjC5",
+  "metadata": {
+    "name": "anchor_nft_marketplace",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "delist_nft",
+      "discriminator": [
+        91,
+        249,
+        165,
+        185,
+        22,
+        7,
+        119,
+        176
+      ],
+      "accounts": [
+        {
+          "name": "maker",
+          "docs": [
+            "The account of the NFT seller who originally listed the NFT.",
+            "Must be the signer of this transaction."
+          ],
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "listing"
+          ]
+        },
+        {
+          "name": "marketplace",
+          "docs": [
+            "The marketplace account this NFT was listed on."
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  107,
+                  101,
+                  116,
+                  112,
+                  108,
+                  97,
+                  99,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "marketplace.name",
+                "account": "Marketplace"
+              }
+            ]
+          }
+        },
+        {
+          "name": "maker_nft_mint",
+          "docs": [
+            "The mint account of the NFT being delisted"
+          ]
+        },
+        {
+          "name": "maker_nft_ata",
+          "docs": [
+            "The maker's Associated Token Account for the NFT.",
+            "This is where the NFT will be returned to after delisting."
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "maker"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "maker_nft_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "vault",
+          "docs": [
+            "The vault account holding the listed NFT.",
+            "This account will be closed after the NFT is returned to the maker."
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "listing"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "maker_nft_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "listing",
+          "docs": [
+            "The listing account containing the sale information.",
+            "This account will be closed and rent will be returned to the maker."
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "marketplace"
+              },
+              {
+                "kind": "account",
+                "path": "maker_nft_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "metadata",
+          "docs": [
+            "Metadata account of the NFT"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  101,
+                  116,
+                  97,
+                  100,
+                  97,
+                  116,
+                  97
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "metadata_program"
+              },
+              {
+                "kind": "account",
+                "path": "maker_nft_mint"
+              }
+            ],
+            "program": {
+              "kind": "account",
+              "path": "metadata_program"
+            }
+          }
+        },
+        {
+          "name": "master_edition",
+          "docs": [
+            "Master Edition account of the NFT"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  101,
+                  116,
+                  97,
+                  100,
+                  97,
+                  116,
+                  97
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "metadata_program"
+              },
+              {
+                "kind": "account",
+                "path": "maker_nft_mint"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  100,
+                  105,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              }
+            ],
+            "program": {
+              "kind": "account",
+              "path": "metadata_program"
+            }
+          }
+        },
+        {
+          "name": "metadata_program",
+          "docs": [
+            "The Metaplex Metadata program"
+          ],
+          "address": "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
+        },
+        {
+          "name": "associated_token_program",
+          "docs": [
+            "The SPL Associated Token program"
+          ],
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "system_program",
+          "docs": [
+            "The Solana System program"
+          ],
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "token_program",
+          "docs": [
+            "The SPL Token program"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initialize_marketplace",
+      "discriminator": [
+        47,
+        81,
+        64,
+        0,
+        96,
+        56,
+        105,
+        7
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "docs": [
+            "The admin account that will have authority over the marketplace.",
+            "This account must be a signer and will pay for the initialization."
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "marketplace",
+          "docs": [
+            "The marketplace account to be created.",
+            "This PDA will store the marketplace configuration and parameters."
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  107,
+                  101,
+                  116,
+                  112,
+                  108,
+                  97,
+                  99,
+                  101
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "name"
+              }
+            ]
+          }
+        },
+        {
+          "name": "treasury",
+          "docs": [
+            "The treasury account for the marketplace.",
+            "This PDA will hold the marketplace's collected fees."
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  114,
+                  101,
+                  97,
+                  115,
+                  117,
+                  114,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "marketplace"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "docs": [
+            "The Solana System Program"
+          ],
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "token_program",
+          "docs": [
+            "The SPL Token Program Interface"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "fee",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "list_nft",
+      "discriminator": [
+        88,
+        221,
+        93,
+        166,
+        63,
+        220,
+        106,
+        232
+      ],
+      "accounts": [
+        {
+          "name": "maker",
+          "docs": [
+            "The account of the NFT owner who is listing the NFT.",
+            "Must be the signer of this transaction and will pay for account creation."
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "marketplace",
+          "docs": [
+            "The marketplace account where the NFT will be listed."
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  107,
+                  101,
+                  116,
+                  112,
+                  108,
+                  97,
+                  99,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "marketplace.name",
+                "account": "Marketplace"
+              }
+            ]
+          }
+        },
+        {
+          "name": "maker_nft_mint",
+          "docs": [
+            "The mint account of the NFT being listed"
+          ],
+          "writable": true
+        },
+        {
+          "name": "maker_nft_ata",
+          "docs": [
+            "The seller's Associated Token Account for the NFT.",
+            "This is the account from which the NFT will be transferred."
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "maker"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "maker_nft_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "vault",
+          "docs": [
+            "The vault account that will hold the NFT while it's listed.",
+            "This is a new Associated Token Account owned by the listing PDA."
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "listing"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "maker_nft_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "listing",
+          "docs": [
+            "The listing account that will store information about this sale."
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "marketplace"
+              },
+              {
+                "kind": "account",
+                "path": "maker_nft_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "metadata",
+          "docs": [
+            "Metadata account of the NFT"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  101,
+                  116,
+                  97,
+                  100,
+                  97,
+                  116,
+                  97
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "metadata_program"
+              },
+              {
+                "kind": "account",
+                "path": "maker_nft_mint"
+              }
+            ],
+            "program": {
+              "kind": "account",
+              "path": "metadata_program"
+            }
+          }
+        },
+        {
+          "name": "master_edition",
+          "docs": [
+            "Master Edition account of the NFT"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  101,
+                  116,
+                  97,
+                  100,
+                  97,
+                  116,
+                  97
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "metadata_program"
+              },
+              {
+                "kind": "account",
+                "path": "maker_nft_mint"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  100,
+                  105,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              }
+            ],
+            "program": {
+              "kind": "account",
+              "path": "metadata_program"
+            }
+          }
+        },
+        {
+          "name": "metadata_program",
+          "docs": [
+            "The Metaplex Metadata program"
+          ],
+          "address": "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
+        },
+        {
+          "name": "associated_token_program",
+          "docs": [
+            "The SPL Associated Token program"
+          ],
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "system_program",
+          "docs": [
+            "The Solana System program"
+          ],
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "token_program",
+          "docs": [
+            "The SPL Token program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "price",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "purchase_nft",
+      "discriminator": [
+        217,
+        35,
+        113,
+        146,
+        250,
+        29,
+        8,
+        209
+      ],
+      "accounts": [
+        {
+          "name": "taker",
+          "docs": [
+            "The buyer's account, must be the signer and will pay for the NFT",
+            "and any account creation costs"
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "maker",
+          "docs": [
+            "The seller's account that will receive payment for the NFT"
+          ],
+          "writable": true
+        },
+        {
+          "name": "maker_nft_mint",
+          "docs": [
+            "The mint account of the NFT being purchased"
+          ]
+        },
+        {
+          "name": "marketplace",
+          "docs": [
+            "The marketplace account where the NFT is listed"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  107,
+                  101,
+                  116,
+                  112,
+                  108,
+                  97,
+                  99,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "marketplace.name",
+                "account": "Marketplace"
+              }
+            ]
+          }
+        },
+        {
+          "name": "taker_ata",
+          "docs": [
+            "The buyer's Associated Token Account for the NFT.",
+            "Will be initialized if it doesn't exist yet."
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "taker"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "maker_nft_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "vault",
+          "docs": [
+            "The vault account currently holding the listed NFT"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "listing"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "maker_nft_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "listing",
+          "docs": [
+            "The listing account containing the sale information",
+            "Will be closed after successful purchase"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "marketplace"
+              },
+              {
+                "kind": "account",
+                "path": "maker_nft_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "metadata",
+          "docs": [
+            "Metadata account of the NFT"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  101,
+                  116,
+                  97,
+                  100,
+                  97,
+                  116,
+                  97
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "metadata_program"
+              },
+              {
+                "kind": "account",
+                "path": "maker_nft_mint"
+              }
+            ],
+            "program": {
+              "kind": "account",
+              "path": "metadata_program"
+            }
+          }
+        },
+        {
+          "name": "treasury",
+          "docs": [
+            "The marketplace treasury account that receives listing fees",
+            "Seeds = [\"treasury\", marketplace.key()]"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  114,
+                  101,
+                  97,
+                  115,
+                  117,
+                  114,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "marketplace"
+              }
+            ]
+          }
+        },
+        {
+          "name": "metadata_program",
+          "docs": [
+            "The Metaplex Metadata program"
+          ],
+          "address": "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
+        },
+        {
+          "name": "associated_token_program",
+          "docs": [
+            "The SPL Associated Token program"
+          ],
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "token_program",
+          "docs": [
+            "The SPL Token program"
+          ]
+        },
+        {
+          "name": "system_program",
+          "docs": [
+            "The Solana System program"
+          ],
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "update_authority",
+      "discriminator": [
+        32,
+        46,
+        64,
+        28,
+        149,
+        75,
+        243,
+        88
+      ],
+      "accounts": [
+        {
+          "name": "current_authority",
+          "docs": [
+            "The current authority of the marketplace",
+            "Must be a signer to authorize the authority transfer"
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "marketplace",
+          "docs": [
+            "The marketplace account to be updated"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  107,
+                  101,
+                  116,
+                  112,
+                  108,
+                  97,
+                  99,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "marketplace.name",
+                "account": "Marketplace"
+              }
+            ]
+          }
+        },
+        {
+          "name": "new_authority",
+          "docs": [
+            "The new authority that will control the marketplace",
+            "This account doesn't need to be a signer"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "update_fee",
+      "discriminator": [
+        232,
+        253,
+        195,
+        247,
+        148,
+        212,
+        73,
+        222
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "docs": [
+            "The marketplace admin account that has authority to update fees.",
+            "Must be the signer of this transaction and match the marketplace's authority."
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "marketplace",
+          "docs": [
+            "The marketplace account whose fee will be updated."
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  107,
+                  101,
+                  116,
+                  112,
+                  108,
+                  97,
+                  99,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "marketplace.name",
+                "account": "Marketplace"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "docs": [
+            "The Solana System Program"
+          ],
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "token_program",
+          "docs": [
+            "The SPL Token Program Interface"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "updated_fee",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "update_rate_limit",
+      "discriminator": [
+        19,
+        62,
+        173,
+        11,
+        170,
+        140,
+        47,
+        69
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "docs": [
+            "The authority of the marketplace",
+            "Must be a signer to authorize the rate limit update"
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "marketplace",
+          "docs": [
+            "The marketplace account to be updated"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  107,
+                  101,
+                  116,
+                  112,
+                  108,
+                  97,
+                  99,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "marketplace.name",
+                "account": "Marketplace"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "rate_limit_interval",
+          "type": "i64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Listing",
+      "discriminator": [
+        218,
+        32,
+        50,
+        73,
+        43,
+        134,
+        26,
+        58
+      ]
+    },
+    {
+      "name": "Marketplace",
+      "discriminator": [
+        70,
+        222,
+        41,
+        62,
+        78,
+        3,
+        32,
+        174
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "AuthorityUpdated",
+      "discriminator": [
+        133,
+        207,
+        24,
+        122,
+        14,
+        234,
+        91,
+        34
+      ]
+    },
+    {
+      "name": "FeeUpdated",
+      "discriminator": [
+        228,
+        75,
+        43,
+        103,
+        9,
+        196,
+        182,
+        4
+      ]
+    },
+    {
+      "name": "NFTDelisted",
+      "discriminator": [
+        52,
+        117,
+        56,
+        45,
+        253,
+        235,
+        211,
+        142
+      ]
+    },
+    {
+      "name": "NFTListed",
+      "discriminator": [
+        208,
+        89,
+        223,
+        57,
+        177,
+        54,
+        75,
+        11
+      ]
+    },
+    {
+      "name": "NFTPurchased",
+      "discriminator": [
+        128,
+        56,
+        107,
+        199,
+        160,
+        35,
+        250,
+        88
+      ]
+    },
+    {
+      "name": "RateLimitUpdated",
+      "discriminator": [
+        227,
+        89,
+        197,
+        54,
+        55,
+        193,
+        191,
+        201
+      ]
+    },
+    {
+      "name": "RoyaltyPaid",
+      "discriminator": [
+        55,
+        169,
+        210,
+        17,
+        117,
+        180,
+        17,
+        74
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NameNotValid",
+      "msg": "The name shouldn't be empty or exceed 32 characters."
+    },
+    {
+      "code": 6001,
+      "name": "FeeTooHigh",
+      "msg": "The fee cannot exceed 10,000 basis points (100%)."
+    },
+    {
+      "code": 6002,
+      "name": "PriceMustBePositive",
+      "msg": "The listing price must be greater than zero."
+    },
+    {
+      "code": 6003,
+      "name": "InvalidListingOwner",
+      "msg": "The listing owner does not match the signer."
+    },
+    {
+      "code": 6004,
+      "name": "InsufficientTokenBalance",
+      "msg": "The NFT token account has insufficient balance."
+    },
+    {
+      "code": 6005,
+      "name": "NonTransferableNFT",
+      "msg": "The NFT is not transferable."
+    },
+    {
+      "code": 6006,
+      "name": "FrozenNFTAccount",
+      "msg": "The NFT account is frozen and cannot be transferred."
+    },
+    {
+      "code": 6007,
+      "name": "InvalidMetadata",
+      "msg": "The provided metadata account does not match the NFT mint."
+    },
+    {
+      "code": 6008,
+      "name": "InvalidRoyaltyPercentage",
+      "msg": "The royalty percentage is invalid."
+    },
+    {
+      "code": 6009,
+      "name": "UnauthorizedAuthority",
+      "msg": "The authority is not authorized to perform this action."
+    },
+    {
+      "code": 6010,
+      "name": "RateLimitExceeded",
+      "msg": "Rate limit exceeded. Please try again later."
+    }
+  ],
+  "types": [
+    {
+      "name": "AuthorityUpdated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "marketplace",
+            "type": "pubkey"
+          },
+          {
+            "name": "old_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "new_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FeeUpdated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "marketplace",
+            "type": "pubkey"
+          },
+          {
+            "name": "admin",
+            "type": "pubkey"
+          },
+          {
+            "name": "old_fee",
+            "type": "u16"
+          },
+          {
+            "name": "new_fee",
+            "type": "u16"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Listing",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "maker",
+            "type": "pubkey"
+          },
+          {
+            "name": "nft_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "metadata",
+            "type": "pubkey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Marketplace",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "marketplace_bump",
+            "type": "u8"
+          },
+          {
+            "name": "treasury",
+            "type": "pubkey"
+          },
+          {
+            "name": "treasury_bump",
+            "type": "u8"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "last_action_timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "rate_limit_interval",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NFTDelisted",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "nft_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "marketplace",
+            "type": "pubkey"
+          },
+          {
+            "name": "seller",
+            "type": "pubkey"
+          },
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NFTListed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "nft_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "marketplace",
+            "type": "pubkey"
+          },
+          {
+            "name": "seller",
+            "type": "pubkey"
+          },
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NFTPurchased",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "nft_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "marketplace",
+            "type": "pubkey"
+          },
+          {
+            "name": "seller",
+            "type": "pubkey"
+          },
+          {
+            "name": "buyer",
+            "type": "pubkey"
+          },
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RateLimitUpdated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "marketplace",
+            "type": "pubkey"
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "old_rate_limit",
+            "type": "i64"
+          },
+          {
+            "name": "new_rate_limit",
+            "type": "i64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RoyaltyPaid",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "nft_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,278 @@
+{
+  "address": "6MAZYi6WaiB8ztJuJjoAVkbQDxZxfuQuJR3KfrfZncih",
+  "metadata": {
+    "name": "anchor_nft_marketplace",
+    "version": "0.1.0",
+    "spec": "0.1.0"
+  },
+  "instructions": [
+    {
+      "name": "initialize_marketplace",
+      "discriminator": [47, 81, 64, 0, 96, 56, 105, 7],
+      "accounts": [
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "marketplace",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [109, 97, 114, 107, 101, 116, 112, 108, 97, 99, 101]
+              },
+              {
+                "kind": "arg",
+                "path": "name"
+              }
+            ]
+          }
+        },
+        {
+          "name": "treasury",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [116, 114, 101, 97, 115, 117, 114, 121]
+              },
+              {
+                "kind": "account",
+                "path": "marketplace"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111112"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "fee_bps",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "list_nft",
+      "discriminator": [88, 221, 93, 166, 63, 220, 106, 232],
+      "accounts": [
+        {
+          "name": "maker",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "marketplace",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [109, 97, 114, 107, 101, 116, 112, 108, 97, 99, 101]
+              }
+            ]
+          }
+        },
+        {
+          "name": "maker_nft_mint",
+          "writable": false
+        },
+        {
+          "name": "maker_nft_ata",
+          "writable": true
+        },
+        {
+          "name": "vault",
+          "writable": true
+        },
+        {
+          "name": "listing",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "marketplace"
+              },
+              {
+                "kind": "account",
+                "path": "maker_nft_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "metadata",
+          "writable": false
+        },
+        {
+          "name": "master_edition",
+          "writable": false
+        },
+        {
+          "name": "metadata_program",
+          "address": "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111112"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "price",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "purchase_nft",
+      "discriminator": [217, 35, 113, 146, 250, 29, 8, 209],
+      "accounts": [
+        {
+          "name": "taker",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "maker",
+          "writable": true
+        },
+        {
+          "name": "maker_nft_mint",
+          "writable": false
+        },
+        {
+          "name": "marketplace",
+          "writable": false
+        },
+        {
+          "name": "taker_ata",
+          "writable": true
+        },
+        {
+          "name": "vault",
+          "writable": true
+        },
+        {
+          "name": "listing",
+          "writable": true
+        },
+        {
+          "name": "metadata",
+          "writable": false
+        },
+        {
+          "name": "treasury",
+          "writable": true
+        },
+        {
+          "name": "metadata_program",
+          "address": "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111112"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "delist_nft",
+      "discriminator": [91, 249, 165, 185, 22, 7, 119, 176],
+      "accounts": [
+        {
+          "name": "maker",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "marketplace",
+          "writable": false
+        },
+        {
+          "name": "maker_nft_mint",
+          "writable": false
+        },
+        {
+          "name": "maker_nft_ata",
+          "writable": true
+        },
+        {
+          "name": "vault",
+          "writable": true
+        },
+        {
+          "name": "listing",
+          "writable": true
+        },
+        {
+          "name": "metadata",
+          "writable": false
+        },
+        {
+          "name": "master_edition",
+          "writable": false
+        },
+        {
+          "name": "metadata_program",
+          "address": "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111112"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Marketplace",
+      "discriminator": [70, 222, 41, 62, 78, 3, 32, 174]
+    },
+    {
+      "name": "Listing",
+      "discriminator": [218, 32, 50, 73, 43, 134, 26, 58]
+    }
+  ],
+  "types": []
+}
